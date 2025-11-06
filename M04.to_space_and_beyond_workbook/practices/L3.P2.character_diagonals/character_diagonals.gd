@@ -6,6 +6,7 @@ var velocity := Vector2(0, 0)
 # practice testing code can read its value.
 var direction := Vector2(0, 0)
 
+var boost_speed := 1500
 
 func _process(delta: float) -> void:
 	direction.x = Input.get_axis("move_left", "move_right")
@@ -17,7 +18,12 @@ func _process(delta: float) -> void:
 	if direction.length() > 1.0:
 		direction = direction.normalized()
 
+	if Input.is_action_just_pressed("boost"):
+		max_speed = boost_speed
+		get_node("Timer").start()
+
 	velocity = direction * max_speed
 	position += velocity * delta
 	if velocity.length() > 0.0:
 		rotation = velocity.angle()
+		
